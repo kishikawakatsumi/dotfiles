@@ -1,5 +1,5 @@
 [user]
-	email = kishikawakatsumi@mac.com
+	email = kishikawakatsumI@mac.com
 	name = Kishikawa Katsumi
 [mergetool "Kaleidoscope"]
 	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot

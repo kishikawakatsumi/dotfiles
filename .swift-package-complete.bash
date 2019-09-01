@@ -30,6 +30,15 @@ _swift()
             ;;
     esac
 }
+
+_swift_dependency() {
+    COMPREPLY=( $(compgen -W "$(swift package completion-tool list-dependencies)" -- $cur) )
+}
+
+_swift_executable() {
+    COMPREPLY=( $(compgen -W "$(swift package completion-tool list-executables)" -- $cur) )
+}
+
 # Generates completions for swift build
 #
 # Parameters
@@ -37,7 +46,7 @@ _swift()
 function _swift_build
 {
     if [[ $COMP_CWORD == $1 ]]; then
-        COMPREPLY=( $(compgen -W "-Xcc -Xswiftc -Xlinker -Xcxx --configuration -c --build-path --chdir -C --package-path --enable-prefetching --disable-prefetching --disable-sandbox --version --destination --verbose -v --no-static-swift-stdlib --static-swift-stdlib --build-tests --product --target --show-bin-path" -- $cur) )
+        COMPREPLY=( $(compgen -W "-Xcc -Xswiftc -Xlinker -Xcxx --configuration -c --build-path --chdir -C --package-path --sanitize --disable-prefetching --skip-update --disable-sandbox --disable-package-manifest-caching --version --destination --verbose -v --no-static-swift-stdlib --static-swift-stdlib --force-resolved-versions --disable-automatic-resolution --enable-index-store --disable-index-store --enable-pubgrub-resolver --enable-parseable-module-interfaces --trace-resolver --jobs -j --enable-test-discovery --build-tests --product --target --show-bin-path" -- $cur) )
         return
     fi
     case $prev in
@@ -69,11 +78,17 @@ function _swift_build
             _filedir
             return
         ;;
-        (--enable-prefetching)
+        (--sanitize)
+            COMPREPLY=( $(compgen -W "address thread undefined" -- $cur) )
+            return
         ;;
         (--disable-prefetching)
         ;;
+        (--skip-update)
+        ;;
         (--disable-sandbox)
+        ;;
+        (--disable-package-manifest-caching)
         ;;
         (--version)
         ;;
@@ -86,6 +101,25 @@ function _swift_build
         (--no-static-swift-stdlib)
         ;;
         (--static-swift-stdlib)
+        ;;
+        (--force-resolved-versions)
+        ;;
+        (--disable-automatic-resolution)
+        ;;
+        (--enable-index-store)
+        ;;
+        (--disable-index-store)
+        ;;
+        (--enable-pubgrub-resolver)
+        ;;
+        (--enable-parseable-module-interfaces)
+        ;;
+        (--trace-resolver)
+        ;;
+        (--jobs|-j)
+            return
+        ;;
+        (--enable-test-discovery)
         ;;
         (--build-tests)
         ;;
@@ -100,7 +134,7 @@ function _swift_build
     esac
     case ${COMP_WORDS[$1]} in
     esac
-    COMPREPLY=( $(compgen -W "-Xcc -Xswiftc -Xlinker -Xcxx --configuration -c --build-path --chdir -C --package-path --enable-prefetching --disable-prefetching --disable-sandbox --version --destination --verbose -v --no-static-swift-stdlib --static-swift-stdlib --build-tests --product --target --show-bin-path" -- $cur) )
+    COMPREPLY=( $(compgen -W "-Xcc -Xswiftc -Xlinker -Xcxx --configuration -c --build-path --chdir -C --package-path --sanitize --disable-prefetching --skip-update --disable-sandbox --disable-package-manifest-caching --version --destination --verbose -v --no-static-swift-stdlib --static-swift-stdlib --force-resolved-versions --disable-automatic-resolution --enable-index-store --disable-index-store --enable-pubgrub-resolver --enable-parseable-module-interfaces --trace-resolver --jobs -j --enable-test-discovery --build-tests --product --target --show-bin-path" -- $cur) )
 }
 
 # Generates completions for swift run
@@ -110,10 +144,11 @@ function _swift_build
 function _swift_run
 {
     if [[ $COMP_CWORD == $(($1+0)) ]]; then
+            _swift_executable
             return
     fi
     if [[ $COMP_CWORD == $1 ]]; then
-        COMPREPLY=( $(compgen -W "-Xcc -Xswiftc -Xlinker -Xcxx --configuration -c --build-path --chdir -C --package-path --enable-prefetching --disable-prefetching --disable-sandbox --version --destination --verbose -v --no-static-swift-stdlib --static-swift-stdlib --skip-build" -- $cur) )
+        COMPREPLY=( $(compgen -W "-Xcc -Xswiftc -Xlinker -Xcxx --configuration -c --build-path --chdir -C --package-path --sanitize --disable-prefetching --skip-update --disable-sandbox --disable-package-manifest-caching --version --destination --verbose -v --no-static-swift-stdlib --static-swift-stdlib --force-resolved-versions --disable-automatic-resolution --enable-index-store --disable-index-store --enable-pubgrub-resolver --enable-parseable-module-interfaces --trace-resolver --jobs -j --enable-test-discovery --skip-build --build-tests --repl" -- $cur) )
         return
     fi
     case $prev in
@@ -145,11 +180,17 @@ function _swift_run
             _filedir
             return
         ;;
-        (--enable-prefetching)
+        (--sanitize)
+            COMPREPLY=( $(compgen -W "address thread undefined" -- $cur) )
+            return
         ;;
         (--disable-prefetching)
         ;;
+        (--skip-update)
+        ;;
         (--disable-sandbox)
+        ;;
+        (--disable-package-manifest-caching)
         ;;
         (--version)
         ;;
@@ -163,12 +204,35 @@ function _swift_run
         ;;
         (--static-swift-stdlib)
         ;;
+        (--force-resolved-versions)
+        ;;
+        (--disable-automatic-resolution)
+        ;;
+        (--enable-index-store)
+        ;;
+        (--disable-index-store)
+        ;;
+        (--enable-pubgrub-resolver)
+        ;;
+        (--enable-parseable-module-interfaces)
+        ;;
+        (--trace-resolver)
+        ;;
+        (--jobs|-j)
+            return
+        ;;
+        (--enable-test-discovery)
+        ;;
         (--skip-build)
+        ;;
+        (--build-tests)
+        ;;
+        (--repl)
         ;;
     esac
     case ${COMP_WORDS[$1]} in
     esac
-    COMPREPLY=( $(compgen -W "-Xcc -Xswiftc -Xlinker -Xcxx --configuration -c --build-path --chdir -C --package-path --enable-prefetching --disable-prefetching --disable-sandbox --version --destination --verbose -v --no-static-swift-stdlib --static-swift-stdlib --skip-build" -- $cur) )
+    COMPREPLY=( $(compgen -W "-Xcc -Xswiftc -Xlinker -Xcxx --configuration -c --build-path --chdir -C --package-path --sanitize --disable-prefetching --skip-update --disable-sandbox --disable-package-manifest-caching --version --destination --verbose -v --no-static-swift-stdlib --static-swift-stdlib --force-resolved-versions --disable-automatic-resolution --enable-index-store --disable-index-store --enable-pubgrub-resolver --enable-parseable-module-interfaces --trace-resolver --jobs -j --enable-test-discovery --skip-build --build-tests --repl" -- $cur) )
 }
 
 # Generates completions for swift package
@@ -178,7 +242,7 @@ function _swift_run
 function _swift_package
 {
     if [[ $COMP_CWORD == $1 ]]; then
-        COMPREPLY=( $(compgen -W "update show-dependencies resolve fetch edit tools-version describe clean generate-completion-script reset resolve-tool unedit init generate-xcodeproj dump-package -Xcc -Xswiftc -Xlinker -Xcxx --configuration -c --build-path --chdir -C --package-path --enable-prefetching --disable-prefetching --disable-sandbox --version --destination --verbose -v --no-static-swift-stdlib --static-swift-stdlib" -- $cur) )
+        COMPREPLY=( $(compgen -W "config generate-xcodeproj fetch dump-package clean completion-tool tools-version reset unedit init edit show-dependencies resolve describe update -Xcc -Xswiftc -Xlinker -Xcxx --configuration -c --build-path --chdir -C --package-path --sanitize --disable-prefetching --skip-update --disable-sandbox --disable-package-manifest-caching --version --destination --verbose -v --no-static-swift-stdlib --static-swift-stdlib --force-resolved-versions --disable-automatic-resolution --enable-index-store --disable-index-store --enable-pubgrub-resolver --enable-parseable-module-interfaces --trace-resolver --jobs -j --enable-test-discovery" -- $cur) )
         return
     fi
     case $prev in
@@ -210,11 +274,17 @@ function _swift_package
             _filedir
             return
         ;;
-        (--enable-prefetching)
+        (--sanitize)
+            COMPREPLY=( $(compgen -W "address thread undefined" -- $cur) )
+            return
         ;;
         (--disable-prefetching)
         ;;
+        (--skip-update)
+        ;;
         (--disable-sandbox)
+        ;;
+        (--disable-package-manifest-caching)
         ;;
         (--version)
         ;;
@@ -228,50 +298,57 @@ function _swift_package
         ;;
         (--static-swift-stdlib)
         ;;
+        (--force-resolved-versions)
+        ;;
+        (--disable-automatic-resolution)
+        ;;
+        (--enable-index-store)
+        ;;
+        (--disable-index-store)
+        ;;
+        (--enable-pubgrub-resolver)
+        ;;
+        (--enable-parseable-module-interfaces)
+        ;;
+        (--trace-resolver)
+        ;;
+        (--jobs|-j)
+            return
+        ;;
+        (--enable-test-discovery)
+        ;;
     esac
     case ${COMP_WORDS[$1]} in
-        (update)
-            _swift_package_update $(($1+1))
+        (config)
+            _swift_package_config $(($1+1))
             return
         ;;
-        (show-dependencies)
-            _swift_package_show-dependencies $(($1+1))
-            return
-        ;;
-        (resolve)
-            _swift_package_resolve $(($1+1))
+        (generate-xcodeproj)
+            _swift_package_generate-xcodeproj $(($1+1))
             return
         ;;
         (fetch)
             _swift_package_fetch $(($1+1))
             return
         ;;
-        (edit)
-            _swift_package_edit $(($1+1))
-            return
-        ;;
-        (tools-version)
-            _swift_package_tools-version $(($1+1))
-            return
-        ;;
-        (describe)
-            _swift_package_describe $(($1+1))
+        (dump-package)
+            _swift_package_dump-package $(($1+1))
             return
         ;;
         (clean)
             _swift_package_clean $(($1+1))
             return
         ;;
-        (generate-completion-script)
-            _swift_package_generate-completion-script $(($1+1))
+        (completion-tool)
+            _swift_package_completion-tool $(($1+1))
+            return
+        ;;
+        (tools-version)
+            _swift_package_tools-version $(($1+1))
             return
         ;;
         (reset)
             _swift_package_reset $(($1+1))
-            return
-        ;;
-        (resolve-tool)
-            _swift_package_resolve-tool $(($1+1))
             return
         ;;
         (unedit)
@@ -282,71 +359,136 @@ function _swift_package
             _swift_package_init $(($1+1))
             return
         ;;
-        (generate-xcodeproj)
-            _swift_package_generate-xcodeproj $(($1+1))
+        (edit)
+            _swift_package_edit $(($1+1))
             return
         ;;
-        (dump-package)
-            _swift_package_dump-package $(($1+1))
+        (show-dependencies)
+            _swift_package_show-dependencies $(($1+1))
+            return
+        ;;
+        (resolve)
+            _swift_package_resolve $(($1+1))
+            return
+        ;;
+        (describe)
+            _swift_package_describe $(($1+1))
+            return
+        ;;
+        (update)
+            _swift_package_update $(($1+1))
             return
         ;;
     esac
-    COMPREPLY=( $(compgen -W "update show-dependencies resolve fetch edit tools-version describe clean generate-completion-script reset resolve-tool unedit init generate-xcodeproj dump-package -Xcc -Xswiftc -Xlinker -Xcxx --configuration -c --build-path --chdir -C --package-path --enable-prefetching --disable-prefetching --disable-sandbox --version --destination --verbose -v --no-static-swift-stdlib --static-swift-stdlib" -- $cur) )
+    COMPREPLY=( $(compgen -W "config generate-xcodeproj fetch dump-package clean completion-tool tools-version reset unedit init edit show-dependencies resolve describe update -Xcc -Xswiftc -Xlinker -Xcxx --configuration -c --build-path --chdir -C --package-path --sanitize --disable-prefetching --skip-update --disable-sandbox --disable-package-manifest-caching --version --destination --verbose -v --no-static-swift-stdlib --static-swift-stdlib --force-resolved-versions --disable-automatic-resolution --enable-index-store --disable-index-store --enable-pubgrub-resolver --enable-parseable-module-interfaces --trace-resolver --jobs -j --enable-test-discovery" -- $cur) )
 }
 
-function _swift_package_update
+function _swift_package_config
 {
     if [[ $COMP_CWORD == $1 ]]; then
-        COMPREPLY=( $(compgen -W "" -- $cur) )
+        COMPREPLY=( $(compgen -W "get-mirror unset-mirror set-mirror" -- $cur) )
         return
     fi
     case $prev in
     esac
     case ${COMP_WORDS[$1]} in
+        (get-mirror)
+            _swift_package_config_get-mirror $(($1+1))
+            return
+        ;;
+        (unset-mirror)
+            _swift_package_config_unset-mirror $(($1+1))
+            return
+        ;;
+        (set-mirror)
+            _swift_package_config_set-mirror $(($1+1))
+            return
+        ;;
     esac
-    COMPREPLY=( $(compgen -W "" -- $cur) )
+    COMPREPLY=( $(compgen -W "get-mirror unset-mirror set-mirror" -- $cur) )
 }
 
-function _swift_package_show-dependencies
+function _swift_package_config_get-mirror
 {
     if [[ $COMP_CWORD == $1 ]]; then
-        COMPREPLY=( $(compgen -W "--format" -- $cur) )
+        COMPREPLY=( $(compgen -W "--package-url" -- $cur) )
         return
     fi
     case $prev in
-        (--format)
-            COMPREPLY=( $(compgen -W "text dot json" -- $cur) )
+        (--package-url)
             return
         ;;
     esac
     case ${COMP_WORDS[$1]} in
     esac
-    COMPREPLY=( $(compgen -W "--format" -- $cur) )
+    COMPREPLY=( $(compgen -W "--package-url" -- $cur) )
 }
 
-function _swift_package_resolve
+function _swift_package_config_unset-mirror
 {
-    if [[ $COMP_CWORD == $(($1+0)) ]]; then
-            return
-    fi
     if [[ $COMP_CWORD == $1 ]]; then
-        COMPREPLY=( $(compgen -W "--version --branch --revision" -- $cur) )
+        COMPREPLY=( $(compgen -W "--package-url --mirror-url" -- $cur) )
         return
     fi
     case $prev in
-        (--version)
+        (--package-url)
             return
         ;;
-        (--branch)
-            return
-        ;;
-        (--revision)
+        (--mirror-url)
             return
         ;;
     esac
     case ${COMP_WORDS[$1]} in
     esac
-    COMPREPLY=( $(compgen -W "--version --branch --revision" -- $cur) )
+    COMPREPLY=( $(compgen -W "--package-url --mirror-url" -- $cur) )
+}
+
+function _swift_package_config_set-mirror
+{
+    if [[ $COMP_CWORD == $1 ]]; then
+        COMPREPLY=( $(compgen -W "--package-url --mirror-url" -- $cur) )
+        return
+    fi
+    case $prev in
+        (--package-url)
+            return
+        ;;
+        (--mirror-url)
+            return
+        ;;
+    esac
+    case ${COMP_WORDS[$1]} in
+    esac
+    COMPREPLY=( $(compgen -W "--package-url --mirror-url" -- $cur) )
+}
+
+function _swift_package_generate-xcodeproj
+{
+    if [[ $COMP_CWORD == $1 ]]; then
+        COMPREPLY=( $(compgen -W "--xcconfig-overrides --enable-code-coverage --output --legacy-scheme-generator --watch --skip-extra-files" -- $cur) )
+        return
+    fi
+    case $prev in
+        (--xcconfig-overrides)
+            _filedir
+            return
+        ;;
+        (--enable-code-coverage)
+        ;;
+        (--output)
+            _filedir
+            return
+        ;;
+        (--legacy-scheme-generator)
+        ;;
+        (--watch)
+        ;;
+        (--skip-extra-files)
+        ;;
+    esac
+    case ${COMP_WORDS[$1]} in
+    esac
+    COMPREPLY=( $(compgen -W "--xcconfig-overrides --enable-code-coverage --output --legacy-scheme-generator --watch --skip-extra-files" -- $cur) )
 }
 
 function _swift_package_fetch
@@ -362,9 +504,123 @@ function _swift_package_fetch
     COMPREPLY=( $(compgen -W "" -- $cur) )
 }
 
+function _swift_package_dump-package
+{
+    if [[ $COMP_CWORD == $1 ]]; then
+        COMPREPLY=( $(compgen -W "" -- $cur) )
+        return
+    fi
+    case $prev in
+    esac
+    case ${COMP_WORDS[$1]} in
+    esac
+    COMPREPLY=( $(compgen -W "" -- $cur) )
+}
+
+function _swift_package_clean
+{
+    if [[ $COMP_CWORD == $1 ]]; then
+        COMPREPLY=( $(compgen -W "" -- $cur) )
+        return
+    fi
+    case $prev in
+    esac
+    case ${COMP_WORDS[$1]} in
+    esac
+    COMPREPLY=( $(compgen -W "" -- $cur) )
+}
+
+function _swift_package_completion-tool
+{
+    if [[ $COMP_CWORD == $(($1+0)) ]]; then
+            COMPREPLY=( $(compgen -W "generate-bash-script generate-zsh-script list-dependencies list-executables" -- $cur) )
+            return
+    fi
+    if [[ $COMP_CWORD == $1 ]]; then
+        COMPREPLY=( $(compgen -W "" -- $cur) )
+        return
+    fi
+    case $prev in
+    esac
+    case ${COMP_WORDS[$1]} in
+    esac
+    COMPREPLY=( $(compgen -W "" -- $cur) )
+}
+
+function _swift_package_tools-version
+{
+    if [[ $COMP_CWORD == $1 ]]; then
+        COMPREPLY=( $(compgen -W "--set --set-current" -- $cur) )
+        return
+    fi
+    case $prev in
+        (--set)
+            return
+        ;;
+        (--set-current)
+        ;;
+    esac
+    case ${COMP_WORDS[$1]} in
+    esac
+    COMPREPLY=( $(compgen -W "--set --set-current" -- $cur) )
+}
+
+function _swift_package_reset
+{
+    if [[ $COMP_CWORD == $1 ]]; then
+        COMPREPLY=( $(compgen -W "" -- $cur) )
+        return
+    fi
+    case $prev in
+    esac
+    case ${COMP_WORDS[$1]} in
+    esac
+    COMPREPLY=( $(compgen -W "" -- $cur) )
+}
+
+function _swift_package_unedit
+{
+    if [[ $COMP_CWORD == $(($1+0)) ]]; then
+            _swift_dependency
+            return
+    fi
+    if [[ $COMP_CWORD == $1 ]]; then
+        COMPREPLY=( $(compgen -W "--force" -- $cur) )
+        return
+    fi
+    case $prev in
+        (--force)
+        ;;
+    esac
+    case ${COMP_WORDS[$1]} in
+    esac
+    COMPREPLY=( $(compgen -W "--force" -- $cur) )
+}
+
+function _swift_package_init
+{
+    if [[ $COMP_CWORD == $1 ]]; then
+        COMPREPLY=( $(compgen -W "--type --name" -- $cur) )
+        return
+    fi
+    case $prev in
+        (--type)
+            COMPREPLY=( $(compgen -W "empty library executable system-module" -- $cur) )
+            return
+        ;;
+        (--name)
+            return
+        ;;
+    esac
+    case ${COMP_WORDS[$1]} in
+    esac
+    COMPREPLY=( $(compgen -W "--type --name" -- $cur) )
+}
+
 function _swift_package_edit
 {
     if [[ $COMP_CWORD == $(($1+0)) ]]; then
+            _swift_dependency
             return
     fi
     if [[ $COMP_CWORD == $1 ]]; then
@@ -388,22 +644,47 @@ function _swift_package_edit
     COMPREPLY=( $(compgen -W "--revision --branch --path" -- $cur) )
 }
 
-function _swift_package_tools-version
+function _swift_package_show-dependencies
 {
     if [[ $COMP_CWORD == $1 ]]; then
-        COMPREPLY=( $(compgen -W "--set --set-current" -- $cur) )
+        COMPREPLY=( $(compgen -W "--format" -- $cur) )
         return
     fi
     case $prev in
-        (--set)
+        (--format)
+            COMPREPLY=( $(compgen -W "text dot json" -- $cur) )
             return
-        ;;
-        (--set-current)
         ;;
     esac
     case ${COMP_WORDS[$1]} in
     esac
-    COMPREPLY=( $(compgen -W "--set --set-current" -- $cur) )
+    COMPREPLY=( $(compgen -W "--format" -- $cur) )
+}
+
+function _swift_package_resolve
+{
+    if [[ $COMP_CWORD == $(($1+0)) ]]; then
+            _swift_dependency
+            return
+    fi
+    if [[ $COMP_CWORD == $1 ]]; then
+        COMPREPLY=( $(compgen -W "--version --branch --revision" -- $cur) )
+        return
+    fi
+    case $prev in
+        (--version)
+            return
+        ;;
+        (--branch)
+            return
+        ;;
+        (--revision)
+            return
+        ;;
+    esac
+    case ${COMP_WORDS[$1]} in
+    esac
+    COMPREPLY=( $(compgen -W "--version --branch --revision" -- $cur) )
 }
 
 function _swift_package_describe
@@ -423,125 +704,7 @@ function _swift_package_describe
     COMPREPLY=( $(compgen -W "--type" -- $cur) )
 }
 
-function _swift_package_clean
-{
-    if [[ $COMP_CWORD == $1 ]]; then
-        COMPREPLY=( $(compgen -W "" -- $cur) )
-        return
-    fi
-    case $prev in
-    esac
-    case ${COMP_WORDS[$1]} in
-    esac
-    COMPREPLY=( $(compgen -W "" -- $cur) )
-}
-
-function _swift_package_generate-completion-script
-{
-    if [[ $COMP_CWORD == $(($1+0)) ]]; then
-            COMPREPLY=( $(compgen -W "bash zsh" -- $cur) )
-            return
-    fi
-    if [[ $COMP_CWORD == $1 ]]; then
-        COMPREPLY=( $(compgen -W "" -- $cur) )
-        return
-    fi
-    case $prev in
-    esac
-    case ${COMP_WORDS[$1]} in
-    esac
-    COMPREPLY=( $(compgen -W "" -- $cur) )
-}
-
-function _swift_package_reset
-{
-    if [[ $COMP_CWORD == $1 ]]; then
-        COMPREPLY=( $(compgen -W "" -- $cur) )
-        return
-    fi
-    case $prev in
-    esac
-    case ${COMP_WORDS[$1]} in
-    esac
-    COMPREPLY=( $(compgen -W "" -- $cur) )
-}
-
-function _swift_package_resolve-tool
-{
-    if [[ $COMP_CWORD == $1 ]]; then
-        COMPREPLY=( $(compgen -W "--type" -- $cur) )
-        return
-    fi
-    case $prev in
-        (--type)
-            COMPREPLY=( $(compgen -W "text json" -- $cur) )
-            return
-        ;;
-    esac
-    case ${COMP_WORDS[$1]} in
-    esac
-    COMPREPLY=( $(compgen -W "--type" -- $cur) )
-}
-
-function _swift_package_unedit
-{
-    if [[ $COMP_CWORD == $(($1+0)) ]]; then
-            return
-    fi
-    if [[ $COMP_CWORD == $1 ]]; then
-        COMPREPLY=( $(compgen -W "--force" -- $cur) )
-        return
-    fi
-    case $prev in
-        (--force)
-        ;;
-    esac
-    case ${COMP_WORDS[$1]} in
-    esac
-    COMPREPLY=( $(compgen -W "--force" -- $cur) )
-}
-
-function _swift_package_init
-{
-    if [[ $COMP_CWORD == $1 ]]; then
-        COMPREPLY=( $(compgen -W "--type" -- $cur) )
-        return
-    fi
-    case $prev in
-        (--type)
-            COMPREPLY=( $(compgen -W "empty library executable system-module" -- $cur) )
-            return
-        ;;
-    esac
-    case ${COMP_WORDS[$1]} in
-    esac
-    COMPREPLY=( $(compgen -W "--type" -- $cur) )
-}
-
-function _swift_package_generate-xcodeproj
-{
-    if [[ $COMP_CWORD == $1 ]]; then
-        COMPREPLY=( $(compgen -W "--xcconfig-overrides --enable-code-coverage --output" -- $cur) )
-        return
-    fi
-    case $prev in
-        (--xcconfig-overrides)
-            _filedir
-            return
-        ;;
-        (--enable-code-coverage)
-        ;;
-        (--output)
-            _filedir
-            return
-        ;;
-    esac
-    case ${COMP_WORDS[$1]} in
-    esac
-    COMPREPLY=( $(compgen -W "--xcconfig-overrides --enable-code-coverage --output" -- $cur) )
-}
-
-function _swift_package_dump-package
+function _swift_package_update
 {
     if [[ $COMP_CWORD == $1 ]]; then
         COMPREPLY=( $(compgen -W "" -- $cur) )
@@ -561,7 +724,7 @@ function _swift_package_dump-package
 function _swift_test
 {
     if [[ $COMP_CWORD == $1 ]]; then
-        COMPREPLY=( $(compgen -W "-Xcc -Xswiftc -Xlinker -Xcxx --configuration -c --build-path --chdir -C --package-path --enable-prefetching --disable-prefetching --disable-sandbox --version --destination --verbose -v --no-static-swift-stdlib --static-swift-stdlib --skip-build --list-tests -l --parallel --specifier -s --filter" -- $cur) )
+        COMPREPLY=( $(compgen -W "-Xcc -Xswiftc -Xlinker -Xcxx --configuration -c --build-path --chdir -C --package-path --sanitize --disable-prefetching --skip-update --disable-sandbox --disable-package-manifest-caching --version --destination --verbose -v --no-static-swift-stdlib --static-swift-stdlib --force-resolved-versions --disable-automatic-resolution --enable-index-store --disable-index-store --enable-pubgrub-resolver --enable-parseable-module-interfaces --trace-resolver --jobs -j --enable-test-discovery --skip-build --list-tests -l --generate-linuxmain --parallel --num-workers --specifier -s --xunit-output --filter --enable-code-coverage" -- $cur) )
         return
     fi
     case $prev in
@@ -593,11 +756,17 @@ function _swift_test
             _filedir
             return
         ;;
-        (--enable-prefetching)
+        (--sanitize)
+            COMPREPLY=( $(compgen -W "address thread undefined" -- $cur) )
+            return
         ;;
         (--disable-prefetching)
         ;;
+        (--skip-update)
+        ;;
         (--disable-sandbox)
+        ;;
+        (--disable-package-manifest-caching)
         ;;
         (--version)
         ;;
@@ -611,22 +780,52 @@ function _swift_test
         ;;
         (--static-swift-stdlib)
         ;;
+        (--force-resolved-versions)
+        ;;
+        (--disable-automatic-resolution)
+        ;;
+        (--enable-index-store)
+        ;;
+        (--disable-index-store)
+        ;;
+        (--enable-pubgrub-resolver)
+        ;;
+        (--enable-parseable-module-interfaces)
+        ;;
+        (--trace-resolver)
+        ;;
+        (--jobs|-j)
+            return
+        ;;
+        (--enable-test-discovery)
+        ;;
         (--skip-build)
         ;;
         (--list-tests|-l)
         ;;
+        (--generate-linuxmain)
+        ;;
         (--parallel)
         ;;
+        (--num-workers)
+            return
+        ;;
         (--specifier|-s)
+            return
+        ;;
+        (--xunit-output)
+            _filedir
             return
         ;;
         (--filter)
             return
         ;;
+        (--enable-code-coverage)
+        ;;
     esac
     case ${COMP_WORDS[$1]} in
     esac
-    COMPREPLY=( $(compgen -W "-Xcc -Xswiftc -Xlinker -Xcxx --configuration -c --build-path --chdir -C --package-path --enable-prefetching --disable-prefetching --disable-sandbox --version --destination --verbose -v --no-static-swift-stdlib --static-swift-stdlib --skip-build --list-tests -l --parallel --specifier -s --filter" -- $cur) )
+    COMPREPLY=( $(compgen -W "-Xcc -Xswiftc -Xlinker -Xcxx --configuration -c --build-path --chdir -C --package-path --sanitize --disable-prefetching --skip-update --disable-sandbox --disable-package-manifest-caching --version --destination --verbose -v --no-static-swift-stdlib --static-swift-stdlib --force-resolved-versions --disable-automatic-resolution --enable-index-store --disable-index-store --enable-pubgrub-resolver --enable-parseable-module-interfaces --trace-resolver --jobs -j --enable-test-discovery --skip-build --list-tests -l --generate-linuxmain --parallel --num-workers --specifier -s --xunit-output --filter --enable-code-coverage" -- $cur) )
 }
 
 _swift_compiler()
