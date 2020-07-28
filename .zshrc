@@ -10,4 +10,3 @@ export PROMPT="%F{green}${USER}:%f%F{blue}%(5~|%-1~/…/%3~|%4~)%f%F{red}\$(__gi
 autoload -U compinit
 compinit -u
 fpath=(~/.zsh $fpath)
-
