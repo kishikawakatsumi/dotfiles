@@ -15,6 +15,7 @@
 	keepBackup = false
 [diff]
 	tool = Kaleidoscope
+	ignoreSubmodules = dirty
 [core]
 	editor = atom --wait
 	autocrlf = input
