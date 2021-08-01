@@ -10,6 +10,4 @@ source /Applications/Xcode.app/Contents/Developer/usr/share/git-core/git-prompt.
 source /Applications/Xcode.app/Contents/Developer/usr/share/git-core/git-completion.bash
 source ~/.swift-package-complete.bash
 
-# >>>> Vagrant command completion (start)
 . /opt/vagrant/embedded/gems/2.2.10/gems/vagrant-2.2.10/contrib/bash/completion.sh
-# <<<<  Vagrant command completion (end)
