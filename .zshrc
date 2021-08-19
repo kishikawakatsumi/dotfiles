@@ -19,5 +19,7 @@ else
   source /opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
 fi
 
+[[ /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
+
 fpath=(/opt/vagrant/embedded/gems/2.2.10/gems/vagrant-2.2.10/contrib/zsh $fpath)
 compinit
