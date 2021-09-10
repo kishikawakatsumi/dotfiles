@@ -1,6 +1,7 @@
 [user]
 	email = kishikawakatsumI@mac.com
 	name = Kishikawa Katsumi
+	signingkey = E00BA5DD
 [mergetool "Kaleidoscope"]
 	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
 	trustexitcode = true
@@ -23,3 +24,7 @@
 	short = true
 [credential]
 	helper = osxkeychain
+[gpg]
+	program = /opt/homebrew/bin/gpg
+[commit]
+	gpgsign = true
