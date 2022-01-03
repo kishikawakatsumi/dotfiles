@@ -7,9 +7,9 @@ GIT_PS1_SHOWUPSTREAM=auto
 
 export PROMPT="%F{green}${USER}:%f%F{blue}%(5~|%-1~/…/%3~|%4~)%f%F{red}\$(__git_ps1)%f%(!.#.$) "
 
-autoload -U compinit
-compinit -u
 fpath=(~/.zsh $fpath)
+autoload -Uz compinit
+compinit -u
 
 source $(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
 source $(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
