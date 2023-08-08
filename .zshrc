@@ -31,3 +31,5 @@ fpath=(/opt/vagrant/embedded/gems/2.2.10/gems/vagrant-2.2.10/contrib/zsh $fpath)
 compinit
 
 [[ /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
+
+export PATH="~/.deno/bin:$PATH"
