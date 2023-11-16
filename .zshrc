@@ -13,8 +13,6 @@ if [[ -f "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/pat
   source $(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
 fi
 
-[[ /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
-
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
 fi
@@ -22,3 +20,5 @@ fi
 fpath=(~/.zsh $fpath)
 autoload -Uz compinit
 compinit -u
+
+[[ /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
