@@ -21,4 +21,4 @@ fpath=(~/.zsh $fpath)
 autoload -Uz compinit
 compinit -u
 
-[[ /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ -e /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
