@@ -20,7 +20,7 @@
 	tool = Kaleidoscope
 	ignoreSubmodules = dirty
 [core]
-	editor = atom --wait
+	editor = code --wait
 	autocrlf = input
 [status]
 	short = true
@@ -30,3 +30,5 @@
 	program = /opt/homebrew/bin/gpg
 [commit]
 	gpgsign = false
+[url "git@github.com:"]
+	insteadOf = https://github.com/
