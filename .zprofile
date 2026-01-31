@@ -8,3 +8,5 @@ fi
 
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 if which nodenv > /dev/null; then eval "$(nodenv init -)"; fi
+
+. "/Users/katsumi/.swiftly/env.sh"

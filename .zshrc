@@ -22,3 +22,9 @@ autoload -Uz compinit
 compinit -u
 
 [[ -e /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
+
+fpath=(/Users/katsumi/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+
+export PATH="$HOME/.local/bin:$PATH"
